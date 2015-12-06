@@ -1,5 +1,6 @@
 #ifndef __QUEUE_H__
 #define __QUEUE_H__
+#
 define MaxSize=100;
 #include <iostream>
 
@@ -44,7 +45,8 @@ public:
 		count--;
 		return temp;
 	}
-	
+
 
 }
+#endif
 
