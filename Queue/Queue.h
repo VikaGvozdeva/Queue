@@ -1,50 +1,97 @@
-#ifndef __QUEUE_H__
-#define __QUEUE_H__
-define MaxSize=100;
+#ifndef QUEUE_H
+#define QUEUE_H	
 #include <iostream>
-
+#include <conio.h>
 using namespace std;
+
+template <class ValType>
 
 class TQueue
 {
-	int Head;
-	int Tail;
-	int Count;
-	int Mem[MaxSize];
+private:
+	int Head, Tail, Len, MaxSize;//tail=end begin=head
+	ValType *V;//mas=V
+
 public:
-	TQueue::TQueue()
+	TQueue(int MaxSize1 = 10)  
 	{
-		Head=0;
-		Tail=0;
-		Count=0;
+		if (MaxSize1 <= 0)
+			throw MaxSize1;
+		MaxSize = MaxSize1;
+		V = new ValType[MaxSize];
+		Head = 0;
+		Tail = -1;
+		Len = 0;
 	}
-	int TQueue::GetNextIndex(int i)
-	{
-		terurn (++i%MaxSize);
-	}
-	int TQueue::IsFull()
-	{
-		return (count==MaxSize);
-	}
-	int TQueue::IsEmpty()
-	{
-		return (count==0);
-	}
-	void TQueue::Put(int elem)
-	{
-		Mem[Tail]=elem;
-		Tail=GetNextIndex(Tail);
-		count++;
-	}
-	int TQueue::DelElem()
-	{
-		int temp;
-		temp=Mem[Head];
-		Head=GetNextIndex(Head);
-		count--;
-		return temp;
-	}
-	
 
-}
+	virtual ~TQueue() 
+	{ 
+		delete[] V; 
+	}
 
+	TQueue(const TQueue& Q)  
+	{
+		MaxSize = Q.MaxSize;
+		Head = Q.Head;
+		Tail = Q.Tail;
+		Len = Q.Len;
+		V = new ValType[MaxSize];
+		for (int i = 0; i < MaxSize; i++)
+			V[i] = Q.V[i];
+	}
+
+	bool IsEmpty() 
+	{
+		return Len == 0;
+	}
+
+	bool IsFull()  
+	{
+		return Len == MaxSize;
+	}
+
+	void Push(const ValType n)  
+	{
+		if (Len == MaxSize)
+			throw Len;
+		if (Tail < MaxSize - 1)
+			Tail++;
+		else Tail = 0;
+		Len++;
+		V[Tail] = n;
+	}
+
+	ValType Pop()  
+	{
+		if (!Len)
+			throw - 1;
+		ValType tmp = V[Head];
+		if (Head < MaxSize - 1)
+			Head++;
+		else Head = 0;
+		Len--;
+		return tmp;
+	}
+
+	ValType Front()  
+	{
+		if (!Len)
+			throw - 1;
+		return V[Head];
+	}
+
+	ValType Back()  
+	{
+		if (!Len)
+			throw - 1;
+		return V[Tail];
+	}
+
+	void Clear()  
+	{
+		Head = 0;
+		Tail = -1;
+		Len = 0;
+	}
+};
+#endif
